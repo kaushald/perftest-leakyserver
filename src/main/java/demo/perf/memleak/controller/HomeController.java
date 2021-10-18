@@ -58,9 +58,6 @@ public class HomeController {
 
     @GetMapping(value = "/login")
     public String login(HttpSession session, Model model) {
-        String str = null;
-        str = getResourceFileAsString("large-file.txt");
-        str.intern();
         return "Login successful";
     }
 
