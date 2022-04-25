@@ -23,7 +23,7 @@ After installing all of the above tools, open Windows PowerShell as Administrato
 
 ```shell
 git config --global core.autocrlf false
-git clone https://github.com/tariqking/perftest-leakyserver.git
+git clone https://github.com/kaushald/perftest-leakyserver.git
 cd perftest-leakyserver
 ```
 
@@ -62,7 +62,7 @@ The following need to be installed on your system:
 After installing all of the above tools, open a terminal and run the following commands:
 
 ```shell
-git clone https://github.com/tariqking/perftest-leakyserver.git
+git clone https://github.com/kaushald/perftest-leakyserver.git
 cd perftest-leakyserver
 ```
 
@@ -102,7 +102,7 @@ The following need to be installed on your system:
 After installing all of the above tools, open a terminal and run the following commands:
 
 ```shell
-git clone https://github.com/tariqking/perftest-leakyserver.git
+git clone https://github.com/kaushald/perftest-leakyserver.git
 cd perftest-leakyserver
 ```
 
