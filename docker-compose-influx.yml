@@ -1,0 +1,69 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  app:
+    container_name: leaky_app
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-boot-simple
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://app:8080/actuator/health" ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  influxdb:
+    container_name: leaky_influxdb
+    image: influxdb:latest
+    ports:
+      - '8086:8086'
+    volumes:
+      - influxdb-storage:/var/lib/influxdb
+    networks:
+      - spring-boot-simple
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=adminadmin
+      - DOCKER_INFLUXDB_INIT_ORG=leaky
+      - DOCKER_INFLUXDB_INIT_BUCKET=leaky
+      - DOCKER_INFLUXDB_INIT_RETENTION=1w
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=adminadmin
+
+  prometheus:
+    container_name: leaky_prometheus
+    image: prom/prometheus:v2.30.3
+    ports:
+      - "9090:9090"
+    networks:
+      - spring-boot-simple
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9090" ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    container_name: leaky_grafana
+    build: './grafana'
+    ports:
+      - "3000:3000"
+    links:
+      - influxdb:influxdb
+    networks:
+      - spring-boot-simple
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3030" ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+networks:
+  spring-boot-simple:
+
+volumes:
+  grafana-storage:
+  influxdb-storage:
