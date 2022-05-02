@@ -117,7 +117,7 @@ k6 run --out influxdb=http://localhost:8086/myk6db k6/04-thresholds.js
 
 * A test that will cause a memory leak on the application under test running on your system.
 ```shell
-k6 run --out influxdb=http://localhost:8086/myk6db 05-memleak.js
+k6 run --out influxdb=http://localhost:8086/myk6db k6/05-memleak.js
 ```
 
 ### Grafana
