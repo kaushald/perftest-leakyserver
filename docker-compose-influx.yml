@@ -15,7 +15,7 @@ services:
 
   influxdb:
     container_name: leaky_influxdb
-    image: influxdb:latest
+    image: influxdb:1.8
     ports:
       - '8086:8086'
     volumes:
@@ -23,13 +23,9 @@ services:
     networks:
       - spring-boot-simple
     environment:
-      - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=admin
-      - DOCKER_INFLUXDB_INIT_PASSWORD=adminadmin
-      - DOCKER_INFLUXDB_INIT_ORG=leaky
-      - DOCKER_INFLUXDB_INIT_BUCKET=leaky
-      - DOCKER_INFLUXDB_INIT_RETENTION=1w
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=adminadmin
+      - INFLUXDB_DB=myk6db
+      - INFLUXDB_ADMIN_USER=leakyadmin
+      - INFLUXDB_ADMIN_PASSWORD=leakyadmin
 
   prometheus:
     container_name: leaky_prometheus

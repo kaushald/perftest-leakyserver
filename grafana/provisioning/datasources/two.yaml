@@ -2,25 +2,15 @@
 apiVersion: 1
 
 datasources:
-  - name: influxdb_k6
-    type: "influxdb"
-    access: "proxy"
-    url: "http://influxdb:8086/"
+  - name: InfluxDB
+    type: influxdb
+    access: proxy
+    database: myk6db
+    user: leakyadmin
+    password: leakyadmin
+    url: http://influxdb:8086
+    isDefault: false
     editable: true
-    user: "admin"
-    secureJsonData:
-      user: "admin"
-      token: "adminadmin"
-      password: "adminadmin"
-      basicAuthPassword: "adminadmin"
-    jsonData:
-      version: Flux
-      organization: "leaky"
-      defaultBucket: leaky
-      tlsSkipVerify: true
-      timeInterval: "1w"
-    secureJsonFields:
-      basicAuthPassword: true
   - id: 1
     uid: 6AwMxn_7k
     orgId: 1
