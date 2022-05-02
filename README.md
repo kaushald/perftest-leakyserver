@@ -56,6 +56,7 @@ The following need to be installed on your system:
 
 * [Docker Desktop](https://www.docker.com/products/docker-desktop)
 * [Java (Intel Chip)](https://cdn.azul.com/zulu/bin/zulu8.56.0.21-ca-jdk8.0.302-macosx_x64.dmg) or [Java (Apple M1 Chip)](https://cdn.azul.com/zulu/bin/zulu8.56.0.23-ca-jdk8.0.302-macosx_aarch64.dmg)
+* [Homebrew](https://brew.sh/)
 
 ### Clone this repository
 
@@ -66,12 +67,57 @@ git clone https://github.com/kaushald/perftest-leakyserver.git
 cd perftest-leakyserver
 ```
 
-### Build and run the project
+### Build and run the project (Jmeter load tests)
 
 Using the same terminal as above, build the project using the following build script
 
 ```shell
 ./bnd.sh
+```
+
+### Build and run the project (K6 Load Tests)
+
+
+#### Install K6
+```shell
+brew install wget
+```
+
+#### Run the Project
+
+Spin up the Application under test, Prometheus, Grafana and Influx with the following docker compose command -
+
+```shell
+./bnd-influx.sh
+```
+
+#### Run K6 Load Tests
+
+You can then run the load tests with the following commands - 
+
+* A simple GET request
+```shell
+k6 run --out influxdb=http://localhost:8086/myk6db k6/01-basic.js
+```
+
+* A longer duration test
+```shell
+k6 run --out influxdb=http://localhost:8086/myk6db k6/02-duration.js
+```
+
+* A test with users ramping up and ramping down
+```shell
+k6 run --out influxdb=http://localhost:8086/myk6db k6/03-ramps.js
+```
+
+* A test with thresholds (pass/fail criteria that specify the performance expectations of the system under test).
+```shell
+k6 run --out influxdb=http://localhost:8086/myk6db k6/04-thresholds.js
+```
+
+* A test that will cause a memory leak on the application under test running on your system.
+```shell
+k6 run --out influxdb=http://localhost:8086/myk6db 05-memleak.js
 ```
 
 ### Grafana
@@ -86,6 +132,10 @@ pass: admin
 You can then view these dashboards:
 * [App Stats Dashboard](http://localhost:3000/d/17kOE7Onk/spring-boot-app?orgId=1&refresh=30s&from=now-15m&to=now)
 * [Prometheus Stats Dashboard](http://localhost:3000/d/UDdpyzz7z/prometheus-stats?orgId=1&refresh=5s&from=now-15m&to=now)
+* [K6 Load Test Results](http://localhost:3000/d/Jupmw7_nz/k6-load-testing-results?orgId=1&refresh=5s&from=now-15m&to=now)
+
+
+
 
 ## Running on Linux
 
