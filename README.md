@@ -80,7 +80,7 @@ Using the same terminal as above, build the project using the following build sc
 
 #### Install K6
 ```shell
-brew install wget
+brew install k6
 ```
 
 #### Run the Project
